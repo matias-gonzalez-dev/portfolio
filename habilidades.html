@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Retro - Habilidades</title>
+    <style>
+        /* Importa fuente pixelada estilo 8-bit desde Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Configuración del body principal */
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            color: #00ff41;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        /* Efecto de líneas de escaneo CRT */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 230, 109, 0.03) 2px,
+                rgba(255, 230, 109, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: scanlines 2s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Estrellas de fondo */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header con botón de volver */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #ffe66d;
+            color: #ffe66d;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 230, 109, 0.3);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(145deg, #3a3a7a, #2a2a5a);
+            box-shadow: 0 0 25px rgba(255, 230, 109, 0.6);
+            transform: scale(1.05);
+        }
+        
+        /* Level display estilo RPG */
+        .level-display {
+            color: #ffe66d;
+            font-size: 0.9rem;
+            text-shadow: 0 0 10px #ffe66d;
+        }
+        
+        /* Título de la página */
+        .page-title {
+            font-size: 2.5rem;
+            color: #ffe66d;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #ffe66d;
+            animation: titlePulse 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titlePulse {
+            from { text-shadow: 0 0 10px #ffe66d, 0 0 20px #ffe66d, 0 0 30px #ffe66d; }
+            to { text-shadow: 0 0 20px #ffe66d, 0 0 30px #ffe66d, 0 0 40px #ffe66d; }
+        }
+        
+        /* Subtítulo */
+        .page-subtitle {
+            text-align: center;
+            color: #00ff41;
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+        
+        /* Tabs para categorías de habilidades */
+        .skills-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab-button::before {
+            content: '⚡';
+            position: absolute;
+            left: -1.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:hover,
+        .tab-button.active {
+            background: linear-gradient(145deg, #3a3a7a, #2a2a5a);
+            border-color: #ffe66d;
+            color: #ffe66d;
+            box-shadow: 0 0 20px rgba(255, 230, 109, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        .tab-button.active::before {
+            opacity: 1;
+        }
+        
+        /* Contenedor de contenido de tabs */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Grid de habilidades */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* Tarjeta de categoría de habilidad */
+        .skill-category {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 3px solid #ffe66d;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(255, 230, 109, 0.3);
+            animation: slideUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        /* Retrasos escalonados */
+        .skill-category:nth-child(1) { animation-delay: 0.1s; }
+        .skill-category:nth-child(2) { animation-delay: 0.2s; }
+        .skill-category:nth-child(3) { animation-delay: 0.3s; }
+        .skill-category:nth-child(4) { animation-delay: 0.4s; }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Título de categoría */
+        .category-title {
+            font-size: 1.2rem;
+            color: #ffe66d;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px #ffe66d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        /* Item de habilidad individual */
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-name {
+            color: #00ff41;
+            font-size: 0.8rem;
+        }
+        
+        .skill-level {
+            color: #4ecdc4;
+            font-size: 0.7rem;
+        }
+        
+        /* Barra de progreso */
+        .skill-bar {
+            width: 100%;
+            height: 12px;
+            background: #1a1a3a;
+            border: 2px solid #00ff41;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41, #4ecdc4, #ffe66d);
+            position: relative;
+            animation: fillSkill 2s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        @keyframes fillSkill {
+            from { width: 0%; }
+            to { width: var(--skill-level); }
+        }
+        
+        /* Efecto de brillo en la barra */
+        .skill-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Sección de stats generales */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #4ecdc4;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            color: #ffe66d;
+            text-shadow: 0 0 10px #ffe66d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: #4ecdc4;
+        }
+        
+        /* Sección de herramientas */
+        .tools-section {
+            margin-top: 3rem;
+        }
+        
+        .tools-title {
+            font-size: 1.5rem;
+            color: #ffe66d;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px #ffe66d;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .tool-card {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #00ff41;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+        
+        .tool-card:hover {
+            border-color: #ffe66d;
+            box-shadow: 0 0 20px rgba(255, 230, 109, 0.5);
+            transform: translateY(-5px);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tool-name {
+            font-size: 0.65rem;
+            color: #4ecdc4;
+        }
+        
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .skills-tabs {
+                gap: 0.5rem;
+            }
+            
+            .tab-button {
+                font-size: 0.6rem;
+                padding: 0.7rem 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .category-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<script>
+        function goBack() {
+            window.location.href = 'menu.html';
+        }
+        
+        // Detectar la tecla ESC para volver al menú
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' || event.key === 'Esc') {
+                window.location.href = 'menu.html';
+            }
+        });
+        
+        // Función para crear estrellas en el fondo
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Función para cambiar entre tabs
+        function switchTab(tabName) {
+            // Ocultar todos los contenidos
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Desactivar todos los botones
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activar el botón seleccionado
+            event.target.classList.add('active');
+        }
+        
+        // Inicializar las estrellas cuando cargue la página
+        window.addEventListener('load', createStars);
+    </script>
+</body>
+</html>
+</body>
+</html>
+<body>
+    <!-- Estrellas de fondo -->
+    <div class="stars"></div>
+    
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Header con botón de volver -->
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                ← VOLVER AL MENÚ
+            </button>
+            <div class="level-display">
+                NIVEL: <span id="totalLevel">85</span>
+            </div>
+        </div>
+        
+        <!-- Título de la página -->
+        <h1 class="page-title">MIS HABILIDADES</h1>
+        <p class="page-subtitle">ÁRBOL DE TALENTOS DESBLOQUEADOS</p>
+        
+        <!-- Stats generales -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-value">20+</div>
+                <div class="stat-label">TECNOLOGÍAS</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">ESPECIALIDADES</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">10+</div>
+                <div class="stat-label">HERRAMIENTAS</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">APRENDIZAJE</div>
+            </div>
+        </div>
+        
+        <!-- Tabs de categorías -->
+        <div class="skills-tabs">
+            <button class="tab-button active" onclick="switchTab('programming')">
+                💻 PROGRAMACIÓN
+            </button>
+            <button class="tab-button" onclick="switchTab('design')">
+                🎨 DISEÑO GRÁFICO
+            </button>
+            <button class="tab-button" onclick="switchTab('video')">
+                🎬 EDICIÓN DE VIDEO
+            </button>
+        </div>
+        
+        <!-- Contenido: Programación -->
+        <div id="programming" class="tab-content active">
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🌐</span>
+                        FRONTEND
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">HTML5</span>
+                            <span class="skill-level">95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 95%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">CSS3</span>
+                            <span class="skill-level">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-level">88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 88%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">React</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Backend -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">⚙️</span>
+                        BACKEND
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Node.js</span>
+                            <span class="skill-level">82%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 82%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Python</span>
+                            <span class="skill-level">78%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 78%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">PHP</span>
+                            <span class="skill-level">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Express.js</span>
+                            <span class="skill-level">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bases de Datos -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">💾</span>
+                        BASES DE DATOS
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">MySQL</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">MongoDB</span>
+                            <span class="skill-level">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">PostgreSQL</span>
+                            <span class="skill-level">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Firebase</span>
+                            <span class="skill-level">78%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 78%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Herramientas -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🔧</span>
+                        HERRAMIENTAS
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Git</span>
+                            <span class="skill-level">88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 88%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Docker</span>
+                            <span class="skill-level">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">VS Code</span>
+                            <span class="skill-level">92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 92%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Postman</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contenido: Diseño Gráfico -->
+        <div id="design" class="tab-content">
+            <div class="skills-grid">
+                <!-- Diseño Digital -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🎨</span>
+                        DISEÑO DIGITAL
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Adobe Photoshop</span>
+                            <span class="skill-level">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Adobe Illustrator</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Figma</span>
+                            <span class="skill-level">88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 88%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Canva</span>
+                            <span class="skill-level">92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 92%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- UI/UX -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">📱</span>
+                        UI/UX DESIGN
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Wireframing</span>
+                            <span class="skill-level">82%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 82%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Prototyping</span>
+                            <span class="skill-level">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">User Research</span>
+                            <span class="skill-level">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Adobe XD</span>
+                            <span class="skill-level">78%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 78%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Branding -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🏷️</span>
+                        BRANDING
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Logo Design</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Color Theory</span>
+                            <span class="skill-level">88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 88%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Typography</span>
+                            <span class="skill-level">82%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 82%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Brand Identity</span>
+                            <span class="skill-level">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" style="--skill-level: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ilustración -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">✏️</span>
+                        ILUSTRACIÓN
+                    </h3>
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">Digital Art</span>
+                            <span class="skill

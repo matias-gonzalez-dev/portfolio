@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Retro - Sobre Mí</title>
+    <style>
+        /* Importa fuente pixelada estilo 8-bit desde Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Configuración del body principal */
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            color: #00ff41;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        /* Efecto de líneas de escaneo CRT */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 2px,
+                rgba(0, 255, 65, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: scanlines 2s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Estrellas de fondo */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header con botón de volver */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(145deg, #3a3a7a, #2a2a5a);
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.6);
+            transform: scale(1.05);
+        }
+        
+        /* Título de la sección */
+        .page-title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 20px #ff6b6b;
+            animation: titlePulse 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titlePulse {
+            from { text-shadow: 0 0 10px #ff6b6b, 0 0 20px #ff6b6b, 0 0 30px #ff6b6b; }
+            to { text-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff6b6b, 0 0 40px #ff6b6b; }
+        }
+        
+        /* Layout principal */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        
+        /* Panel del avatar y stats */
+        .character-panel {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 3px solid #ff6b6b;
+            padding: 2rem;
+            position: sticky;
+            top: 2rem;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        /* Avatar pixelado */
+        .avatar {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 2rem;
+            position: relative;
+            border: 3px solid #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            animation: avatarGlow 4s ease-in-out infinite alternate;
+            overflow: hidden;
+            background: #1a1a2e;
+        }
+        
+        @keyframes avatarGlow {
+            from { box-shadow: 0 0 15px rgba(0, 255, 65, 0.5); }
+            to { box-shadow: 0 0 25px rgba(0, 255, 65, 0.8); }
+        }
+        
+        /* Imagen del avatar */
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        /* Stats del personaje */
+        .character-stats {
+            color: #00ff41;
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+        
+        .stat-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            animation: typewriter 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .stat-line .stat-label {
+            color: #ffe66d;
+            font-size: 0.7rem;
+            margin-bottom: 0.4rem;
+            text-shadow: 0 0 5px #ffe66d;
+        }
+        
+        .stat-line .stat-value {
+            color: #00ff41;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        
+        /* Retrasos escalonados para animaciones */
+        .stat-line:nth-child(1) { animation-delay: 0.1s; }
+        .stat-line:nth-child(2) { animation-delay: 0.2s; }
+        .stat-line:nth-child(3) { animation-delay: 0.3s; }
+        .stat-line:nth-child(4) { animation-delay: 0.4s; }
+        .stat-line:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes typewriter {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+        
+        /* Barra de progreso para stats */
+        .progress-bar {
+            background: #1a1a3a;
+            height: 8px;
+            border: 1px solid #00ff41;
+            margin-top: 0.3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41, #4ecdc4);
+            animation: fillProgress 2s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        @keyframes fillProgress {
+            from { width: 0%; }
+            to { width: var(--progress); }
+        }
+        
+        /* Panel de información principal */
+        .info-panel {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 3px solid #00ff41;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        /* Secciones de información */
+        .info-section {
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: slideInFromRight 1s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .info-section:nth-child(1) { animation-delay: 0.3s; }
+        .info-section:nth-child(2) { animation-delay: 0.6s; }
+        .info-section:nth-child(3) { animation-delay: 0.9s; }
+        .info-section:nth-child(4) { animation-delay: 1.2s; }
+        
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Títulos de secciones */
+        .section-title {
+            font-size: 1.3rem;
+            color: #ffe66d;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px #ffe66d;
+            border-bottom: 2px solid #ffe66d;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Texto de contenido */
+        .section-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #00ccff;
+            text-align: justify;
+        }
+        
+        /* Lista de tecnologías/intereses */
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-tag {
+            background: linear-gradient(45deg, #4ecdc4, #00ff41);
+            color: #1a1a2e;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.7rem;
+            border: 1px solid #00ff41;
+            font-weight: bold;
+            animation: tagGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes tagGlow {
+            from { box-shadow: 0 0 5px rgba(0, 255, 65, 0.3); }
+            to { box-shadow: 0 0 15px rgba(0, 255, 65, 0.7); }
+        }
+        
+        /* Terminal de comandos simulado */
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff41;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #00ff41;
+            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+        
+        .terminal-line {
+            margin-bottom: 0.3rem;
+            animation: typeText 2s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .terminal-line:nth-child(1) { animation-delay: 1.5s; }
+        .terminal-line:nth-child(2) { animation-delay: 1.8s; }
+        .terminal-line:nth-child(3) { animation-delay: 2.1s; }
+        
+        @keyframes typeText {
+            from {
+                width: 0;
+                overflow: hidden;
+            }
+            to {
+                width: 100%;
+                overflow: visible;
+            }
+        }
+        
+        .cursor {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Estilos responsivos */
+        @media (max-width: 1024px) {
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .character-panel {
+                position: relative;
+                top: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .avatar {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+            
+            .section-content {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Estrellas de fondo -->
+    <div class="stars"></div>
+    
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Header con botón de volver -->
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                ← VOLVER AL MENÚ
+            </button>
+        </div>
+        
+        <!-- Título de la página -->
+        <h1 class="page-title">SOBRE MÍ</h1>
+        
+        <!-- Layout principal -->
+        <div class="about-layout">
+            <!-- Panel del personaje -->
+            <div class="character-panel">
+                <div class="avatar">
+                    <img src="https://i.ibb.co/twF6T328/pixelart-matias.png" alt="pixelart-matias" border="0">
+                </div>
+                
+                <div class="character-stats">
+                    <div class="stat-line">
+                        <span class="stat-label">NOMBRE:</span>
+                        <span class="stat-value">MATIAS GONZALEZ<br>LOPEZ</span>
+                    </div>
+                    <div class="stat-line">
+                        <span class="stat-label">NIVEL:</span>
+                        <span class="stat-value">JUNIOR DEV</span>
+                    </div>
+                    <div class="stat-line">
+                        <span class="stat-label">EXP:</span>
+                        <span class="stat-value">27+</span>
+                    </div>
+                    <div class="stat-line">
+                        <span class="stat-label">UBICACIÓN:</span>
+                        <span class="stat-value">CIUDAD DEL ESTE</span>
+                    </div>
+                    <div class="stat-line">
+                        <span class="stat-label">ESTADO:</span>
+                        <span class="stat-value">DISPONIBLE</span>
+                    </div>
+                    
+                    <!-- Barras de progreso de habilidades -->
+                    <div style="margin-top: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>FRONTEND</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="--progress: 95%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>BACKEND</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="--progress: 88%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>DATABASE</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="--progress: 82%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>DESIGN</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="--progress: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de información -->
+            <div class="info-panel">
+                <!-- Presentación -->
+                <div class="info-section">
+                    <h2 class="section-title">PRESENTACIÓN</h2>
+                    <div class="section-content">
+                        ¡Hola! Soy un desarrollador apasionado por crear experiencias digitales únicas. 
+                        Con más de X años de experiencia en el mundo del desarrollo web, me especializo 
+                        en crear aplicaciones modernas, eficientes y visualmente atractivas.
+                        <br><br>
+                        Mi objetivo es combinar la funcionalidad con el diseño para crear productos 
+                        que no solo cumplan su propósito, sino que también deleiten a los usuarios.
+                    </div>
+                </div>
+                
+                <!-- Mi historia -->
+                <div class="info-section">
+                    <h2 class="section-title">MI HISTORIA</h2>
+                    <div class="section-content">
+                        Mi viaje en la programación comenzó hace X años cuando descubrí el poder de 
+                        convertir ideas en realidad digital. Desde entonces, he trabajado en diversos 
+                        proyectos, desde aplicaciones web hasta sistemas complejos.
+                        <br><br>
+                        Cada proyecto ha sido una oportunidad de aprender algo nuevo y perfeccionar 
+                        mis habilidades. Mi filosofía es la mejora continua y la adaptación a las 
+                        nuevas tecnologías.
+                    </div>
+                </div>
+                
+                <!-- Tecnologías -->
+                <div class="info-section">
+                    <h2 class="section-title">TECNOLOGÍAS</h2>
+                    <div class="section-content">
+                        Estas son algunas de las tecnologías con las que trabajo:
+                    </div>
+                    <div class="tech-list">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Git</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">AWS</span>
+                    </div>
+                </div>
+                
+                <!-- Intereses -->
+                <div class="info-section">
+                    <h2 class="section-title">MÁS ALLÁ DEL CÓDIGO</h2>
+                    <div class="section-content">
+                        Cuando no estoy programando, disfruto de los videojuegos retro (como puedes 
+                        ver por el diseño de este portfolio), la música, y explorar nuevas tecnologías. 
+                        También me gusta contribuir a proyectos de código abierto y aprender de la 
+                        comunidad de desarrolladores.
+                    </div>
+                    
+                    <!-- Terminal simulado -->
+                    <div class="terminal">
+                        <div class="terminal-line">$ whoami</div>
+                        <div class="terminal-line">developer@portfolio:~$ Un apasionado del código</div>
+                        <div class="terminal-line">$ status --ready-to-work<span class="cursor">_</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear estrellas aleatorias
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Función para volver al menú
+        function goBack() {
+            // Reproduce sonido de navegación
+            playSelectSound();
+            
+            setTimeout(() => {
+                window.location.href = 'menu.html';
+            }, 200);
+        }
+        
+        // Reproduce sonido de selección
+        function playSelectSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 600;
+            oscillator.type = 'square';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.15);
+        }
+        
+        // Detección de tecla Escape para volver
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                goBack();
+            }
+        });
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+        });
+    </script>
+</body>
+</html>

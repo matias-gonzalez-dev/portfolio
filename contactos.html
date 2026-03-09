@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Retro - Contacto</title>
+    <style>
+        /* Importa fuente pixelada estilo 8-bit desde Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Configuración del body principal */
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            color: #00ff41;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        /* Efecto de líneas de escaneo CRT */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(168, 230, 207, 0.03) 2px,
+                rgba(168, 230, 207, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: scanlines 2s linear infinite;
+            z-index: 1;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Estrellas de fondo */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header con botón de volver */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #a8e6cf;
+            color: #a8e6cf;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(168, 230, 207, 0.3);
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(145deg, #3a3a7a, #2a2a5a);
+            box-shadow: 0 0 25px rgba(168, 230, 207, 0.6);
+            transform: scale(1.05);
+        }
+        
+        /* Status online */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a8e6cf;
+            font-size: 0.8rem;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #00ff41;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 10px #00ff41;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        
+        /* Título de la página */
+        .page-title {
+            font-size: 2.5rem;
+            color: #a8e6cf;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #a8e6cf;
+            animation: titlePulse 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titlePulse {
+            from { text-shadow: 0 0 10px #a8e6cf, 0 0 20px #a8e6cf, 0 0 30px #a8e6cf; }
+            to { text-shadow: 0 0 20px #a8e6cf, 0 0 30px #a8e6cf, 0 0 40px #a8e6cf; }
+        }
+        
+        /* Subtítulo */
+        .page-subtitle {
+            text-align: center;
+            color: #00ff41;
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+        
+        /* Layout principal */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* Panel de redes sociales */
+        .social-panel {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 3px solid #a8e6cf;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(168, 230, 207, 0.3);
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .panel-title {
+            font-size: 1.3rem;
+            color: #a8e6cf;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 10px #a8e6cf;
+        }
+        
+        /* Enlaces sociales */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(145deg, #1a1a3a, #0a0a2a);
+            border: 2px solid #00ff41;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: #00ff41;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(168, 230, 207, 0.1);
+            transition: width 0.3s ease;
+        }
+        
+        .social-link:hover::before {
+            width: 100%;
+        }
+        
+        .social-link:hover {
+            border-color: #a8e6cf;
+            color: #a8e6cf;
+            box-shadow: 0 0 20px rgba(168, 230, 207, 0.5);
+            transform: translateX(10px);
+        }
+        
+        .social-icon {
+            font-size: 1.8rem;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .social-info {
+            flex: 1;
+        }
+        
+        .social-name {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .social-handle {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        
+        /* Panel de formulario */
+        .form-panel {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 3px solid #a8e6cf;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(168, 230, 207, 0.3);
+            animation: slideInRight 0.8s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Formulario */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-label {
+            color: #a8e6cf;
+            font-size: 0.8rem;
+            text-shadow: 0 0 5px #a8e6cf;
+        }
+        
+        .form-input,
+        .form-textarea {
+            background: #0a0a2a;
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 0.8rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #a8e6cf;
+            box-shadow: 0 0 15px rgba(168, 230, 207, 0.3);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+        }
+        
+        .form-button {
+            background: linear-gradient(145deg, #3a3a7a, #2a2a5a);
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 1rem 2rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .form-button:hover {
+            background: linear-gradient(145deg, #4a4a8a, #3a3a6a);
+            border-color: #a8e6cf;
+            color: #a8e6cf;
+            box-shadow: 0 0 20px rgba(168, 230, 207, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .form-button:active {
+            transform: scale(0.95);
+        }
+        
+        /* Sección de información adicional */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .info-card {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #4ecdc4;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+            animation: fadeInUp 1s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .info-card:nth-child(1) { animation-delay: 0.2s; }
+        .info-card:nth-child(2) { animation-delay: 0.4s; }
+        .info-card:nth-child(3) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .info-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-title {
+            font-size: 0.9rem;
+            color: #4ecdc4;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-text {
+            font-size: 0.7rem;
+            color: #00ff41;
+            line-height: 1.6;
+        }
+        
+        /* Terminal de respuesta */
+        .response-terminal {
+            background: #000;
+            border: 3px solid #00ff41;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-family: 'Courier New', monospace;
+            color: #00ff41;
+            min-height: 100px;
+            box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.3);
+            display: none;
+        }
+        
+        .response-terminal.active {
+            display: block;
+            animation: terminalAppear 0.5s ease-out;
+        }
+        
+        @keyframes terminalAppear {
+            from {
+                opacity: 0;
+                transform: scaleY(0);
+            }
+            to {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+        }
+        
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .terminal-cursor {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Estilos responsivos */
+        @media (max-width: 1024px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .social-panel,
+            .form-panel {
+                padding: 1.5rem;
+            }
+            
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .panel-title {
+                font-size: 1.1rem;
+            }
+            
+            .social-icon {
+                font-size: 1.5rem;
+            }
+            
+            .social-name {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Estrellas de fondo -->
+    <div class="stars"></div>
+    
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Header con botón de volver -->
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                ← VOLVER AL MENÚ
+            </button>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>ONLINE</span>
+            </div>
+        </div>
+        
+        <!-- Título de la página -->
+        <h1 class="page-title">CONTACTO</h1>
+        <p class="page-subtitle">INICIEMOS UNA NUEVA MISIÓN JUNTOS</p>
+        
+        <!-- Layout principal -->
+        <div class="contact-layout">
+            <!-- Panel de redes sociales -->
+            <div class="social-panel">
+                <h2 class="panel-title">CANALES DE COMUNICACIÓN</h2>
+                
+                <div class="social-links">
+                    <a href="mailto:tu-email@example.com" class="social-link">
+                        <div class="social-icon">📧</div>
+                        <div class="social-info">
+                            <div class="social-name">EMAIL</div>
+                            <div class="social-handle">tu-email@example.com</div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://github.com/tu-usuario" target="_blank" class="social-link">
+                        <div class="social-icon">🐙</div>
+                        <div class="social-info">
+                            <div class="social-name">GITHUB</div>
+                            <div class="social-handle">@tu-usuario</div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://linkedin.com/in/tu-perfil" target="_blank" class="social-link">
+                        <div class="social-icon">💼</div>
+                        <div class="social-info">
+                            <div class="social-name">LINKEDIN</div>
+                            <div class="social-handle">@tu-perfil</div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://twitter.com/tu-usuario" target="_blank" class="social-link">
+                        <div class="social-icon">🐦</div>
+                        <div class="social-info">
+                            <div class="social-name">TWITTER</div>
+                            <div class="social-handle">@tu-usuario</div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://instagram.com/tu-usuario" target="_blank" class="social-link">
+                        <div class="social-icon">📸</div>
+                        <div class="social-info">
+                            <div class="social-name">INSTAGRAM</div>
+                            <div class="social-handle">@tu-usuario</div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://wa.me/1234567890" target="_blank" class="social-link">
+                        <div class="social-icon">💬</div>
+                        <div class="social-info">
+                            <div class="social-name">WHATSAPP</div>
+                            <div class="social-handle">+123 456 7890</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Panel de formulario -->
+            <div class="form-panel">
+                <h2 class="panel-title">ENVIAR MENSAJE</h2>
+                
+                <form class="contact-form" onsubmit="sendMessage(event)">
+                    <div class="form-group">
+                        <label class="form-label">NOMBRE:</label>
+                        <input type="text" class="form-input" id="name" required placeholder="TU NOMBRE">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">EMAIL:</label>
+                        <input type="email" class="form-input" id="email" required placeholder="tu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">ASUNTO:</label>
+                        <input type="text" class="form-input" id="subject" required placeholder="ASUNTO DEL MENSAJE">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">MENSAJE:</label>
+                        <textarea class="form-textarea" id="message" required placeholder="ESCRIBE TU MENSAJE AQUÍ..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="form-button">
+                        ENVIAR MENSAJE ►
+                    </button>
+                </form>
+                
+                <!-- Terminal de respuesta -->
+                <div class="response-terminal" id="responseTerminal">
+                    <div class="terminal-line">$ Enviando mensaje...</div>
+                    <div class="terminal-line">$ Conectando con el servidor...</div>
+                    <div class="terminal-line">$ ✓ Mensaje enviado exitosamente!</div>
+                    <div class="terminal-line">$ Responderé pronto <span class="terminal-cursor">_</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjetas de información -->
+        <div class="info-cards">
+            <div class="info-card">
+                <div class="info-icon">📍</div>
+                <div class="info-title">UBICACIÓN</div>
+                <div class="info-text">Ciudad del Este<br>Paraguay</div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-icon">⏰</div>
+                <div class="info-title">HORARIO</div>
+                <div class="info-text">Lun - Vie<br>9:00 - 18:00 GMT-4</div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-icon">🚀</div>
+                <div class="info-title">TIEMPO DE RESPUESTA</div>
+                <div class="info-text">Normalmente respondo<br>en menos de 24 horas</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear estrellas aleatorias
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Función para volver al menú
+        function goBack() {
+            playSelectSound();
+            setTimeout(() => {
+                window.location.href = 'menu.html';
+            }, 200);
+        }
+        
+        // Reproduce sonido de selección
+        function playSelectSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 600;
+            oscillator.type = 'square';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.15);
+        }
+        
+        // Función para enviar mensaje
+        function sendMessage(event) {
+            event.preventDefault();
+            playSelectSound();
+            
+            // Obtener valores del formulario
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Mostrar terminal de respuesta
+            const terminal = document.getElementById('responseTerminal');
+            terminal.classList.add('active');
+            
+            // Aquí puedes integrar con un servicio de email como:
+            // - EmailJS: https://www.emailjs.com/
+            // - Formspree: https://formspree.io/
+            // - Tu propio backend
+            
+            console.log('Mensaje enviado:', { name, email, subject, message });
+            
+            // Limpiar formulario después de 3 segundos
+            setTimeout(() => {
+                document.querySelector('.contact-form').reset();
+            }, 3000);
+            
+            // Ocultar terminal después de 5 segundos
+            setTimeout(() => {
+                terminal.classList.remove('active');
+            }, 5000);
+        }
+        
+        // Detección de tecla Escape para volver
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                goBack();
+            }
+        });
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Retro - Menú Principal</title>
+    <style>
+        /* Importa fuente pixelada estilo 8-bit desde Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        /* Reset de estilos para eliminar márgenes y paddings por defecto */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Configuración del body principal */
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            color: #00ff41;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Efecto de líneas de escaneo CRT */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 2px,
+                rgba(0, 255, 65, 0.03) 4px
+            );
+            pointer-events: none;
+            animation: scanlines 2s linear infinite;
+        }
+        
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Estrellas de fondo animadas */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Contenedor principal del menú */
+        .menu-container {
+            text-align: center;
+            z-index: 10;
+            max-width: 600px;
+            width: 90%;
+        }
+        
+        /* Título del portfolio */
+        .portfolio-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41; }
+            to { text-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41, 0 0 40px #00ff41; }
+        }
+        
+        /* Subtítulo con información del desarrollador */
+        .subtitle {
+            font-size: 1rem;
+            color: #00ccff;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            animation: flicker 2s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 90% { opacity: 0.8; }
+            95% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+        
+        /* Contenedor de las opciones del menú */
+        .menu-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        /* Estilo base para cada opción del menú */
+        .menu-option {
+            background: linear-gradient(145deg, #2a2a5a, #1a1a3a);
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 1rem 2rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 0;
+            min-width: 300px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+        
+        /* Indicador de selección (triángulo) */
+        .menu-option::before {
+            content: '▶';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        /* Estado hover para las opciones del menú */
+        .menu-option:hover,
+        .menu-option.selected {
+            background: linear-gradient(145deg, #3a3a7a, #2a2a5a);
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.5);
+            transform: translateX(1rem);
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        
+        /* Muestra el indicador cuando está seleccionado */
+        .menu-option:hover::before,
+        .menu-option.selected::before {
+            opacity: 1;
+            color: #00ffff;
+        }
+        
+        /* Efecto de clic */
+        .menu-option:active {
+            transform: translateX(1rem) scale(0.95);
+        }
+        
+        /* Opciones específicas con colores diferentes */
+        .menu-option.about { border-color: #ff6b6b; }
+        .menu-option.about:hover { 
+            border-color: #ff6b6b; 
+            color: #ff6b6b; 
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.5);
+        }
+        .menu-option.about:hover::before { color: #ff6b6b; }
+        
+        .menu-option.projects { border-color: #4ecdc4; }
+        .menu-option.projects:hover { 
+            border-color: #4ecdc4; 
+            color: #4ecdc4;
+            box-shadow: 0 0 25px rgba(78, 205, 196, 0.5);
+        }
+        .menu-option.projects:hover::before { color: #4ecdc4; }
+        
+        .menu-option.skills { border-color: #ffe66d; }
+        .menu-option.skills:hover { 
+            border-color: #ffe66d; 
+            color: #ffe66d;
+            box-shadow: 0 0 25px rgba(255, 230, 109, 0.5);
+        }
+        .menu-option.skills:hover::before { color: #ffe66d; }
+        
+        .menu-option.contact { border-color: #a8e6cf; }
+        .menu-option.contact:hover { 
+            border-color: #a8e6cf; 
+            color: #a8e6cf;
+            box-shadow: 0 0 25px rgba(168, 230, 207, 0.5);
+        }
+        .menu-option.contact:hover::before { color: #a8e6cf; }
+        
+        /* Información de controles en la parte inferior */
+        .controls-info {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            opacity: 0.6;
+            text-align: center;
+            animation: blink 3s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 70% { opacity: 0.6; }
+            85% { opacity: 0.2; }
+            100% { opacity: 0.6; }
+        }
+        
+        /* Contador de vidas/créditos estilo arcade */
+        .game-info {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-size: 0.8rem;
+            color: #00ff41;
+            opacity: 0.8;
+        }
+        
+        .game-info div {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Animación de entrada para las opciones */
+        .menu-option {
+            animation: slideIn 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Retrasos escalonados para las animaciones de entrada */
+        .menu-option:nth-child(1) { animation-delay: 0.1s; }
+        .menu-option:nth-child(2) { animation-delay: 0.2s; }
+        .menu-option:nth-child(3) { animation-delay: 0.3s; }
+        .menu-option:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Partículas flotantes */
+        .particle {
+            position: absolute;
+            background: #00ff41;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .portfolio-title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .menu-option {
+                font-size: 0.9rem;
+                min-width: 250px;
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .game-info {
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .portfolio-title {
+                font-size: 1.5rem;
+            }
+            
+            .menu-option {
+                font-size: 0.8rem;
+                min-width: 200px;
+                padding: 0.7rem 1.2rem;
+            }
+            
+            .menu-option::before {
+                left: -1.5rem;
+            }
+            
+            .controls-info {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Estrellas de fondo -->
+    <div class="stars"></div>
+    
+    <!-- Información del juego estilo arcade -->
+    <div class="game-info">
+        <div>PLAYER: 1</div>
+        <div>LIVES: ∞</div>
+        <div>LEVEL: 01</div>
+    </div>
+    
+    <!-- Contenedor principal del menú -->
+    <div class="menu-container">
+        <h1 class="portfolio-title">MI PORTFOLIO</h1>
+        <p class="subtitle">DESARROLLADOR FULL STACK</p>
+        
+        <div class="menu-options">
+            <button class="menu-option about" onclick="navigateTo('about')">
+                SOBRE MÍ
+            </button>
+            <button class="menu-option projects" onclick="navigateTo('projects')">
+                PROYECTOS
+            </button>
+            <button class="menu-option skills" onclick="navigateTo('skills')">
+                HABILIDADES
+            </button>
+            <button class="menu-option contact" onclick="navigateTo('contact')">
+                CONTACTO
+            </button>
+        </div>
+    </div>
+    
+    <!-- Información de controles -->
+    <div class="controls-info">
+        USA ↑↓ PARA NAVEGAR • ENTER PARA SELECCIONAR • ESC PARA VOLVER
+    </div>
+
+    <script>
+        let currentSelection = 0; // Índice de la opción actualmente seleccionada
+        const menuOptions = document.querySelectorAll('.menu-option'); // Obtiene todas las opciones del menú
+        
+        // Función para crear estrellas aleatorias en el fondo
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 80;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Función para crear partículas flotantes
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.width = Math.random() * 3 + 1 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            document.body.appendChild(particle);
+            
+            // Elimina la partícula después de la animación
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+        
+        // Actualiza la selección visual del menú
+        function updateSelection() {
+            menuOptions.forEach((option, index) => {
+                option.classList.toggle('selected', index === currentSelection);
+            });
+        }
+        
+        // Reproduce sonido de navegación
+        function playNavigationSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 400; // Frecuencia más baja que el botón START
+            oscillator.type = 'square';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.05);
+        }
+        
+        // Reproduce sonido de selección
+        function playSelectSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 600; // Frecuencia media para selección
+            oscillator.type = 'square';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.15);
+        }
+        
+        // Función de navegación a diferentes secciones
+        function navigateTo(section) {
+            playSelectSound(); // Reproduce sonido al seleccionar
+            
+            // Aquí irían las rutas a las diferentes páginas
+            switch(section) {
+                case 'about':
+                    //alert('Navegando a: Sobre Mí\n(Aquí iría about.html)');
+                    window.location.href = 'about.html';
+                    break;
+                case 'projects':
+                    //alert('Navegando a: Proyectos\n(Aquí iría projects.html)');
+                    window.location.href = 'proyectos.html';
+                    break;
+                case 'skills':
+                    //alert('Navegando a: Habilidades\n(Aquí iría skills.html)');
+                    window.location.href = 'habilidades.html';
+                    break;
+                case 'contact':
+                    //alert('Navegando a: Contacto\n(Aquí iría contact.html)');
+                    window.location.href = 'contactos.html';
+                    break;
+            }
+        }
+        
+        // Manejo de navegación con teclado
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowUp': // Flecha arriba
+                    event.preventDefault();
+                    currentSelection = (currentSelection - 1 + menuOptions.length) % menuOptions.length;
+                    updateSelection();
+                    playNavigationSound();
+                    break;
+                    
+                case 'ArrowDown': // Flecha abajo
+                    event.preventDefault();
+                    currentSelection = (currentSelection + 1) % menuOptions.length;
+                    updateSelection();
+                    playNavigationSound();
+                    break;
+                    
+                case 'Enter': // Enter para seleccionar
+                    event.preventDefault();
+                    const selectedOption = menuOptions[currentSelection];
+                    selectedOption.click(); // Simula clic en la opción seleccionada
+                    break;
+                    
+                case 'Escape': // Escape para volver
+                playSelectSound(); // Reproduce sonido al volver
+                setTimeout(() => {
+                window.location.href = 'index.html'; // ✅ Ahora va a index.html
+                }, 200);
+            }
+        });
+        
+        // Inicialización cuando la página carga
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars(); // Crea las estrellas de fondo
+            updateSelection(); // Selecciona la primera opción por defecto
+            
+            // Crea partículas cada 3 segundos
+            setInterval(createParticle, 3000);
+            
+            // Efecto de escritura para el título (opcional)
+            setTimeout(() => {
+                document.querySelector('.portfolio-title').style.animation = 'titleGlow 3s ease-in-out infinite alternate';
+            }, 1000);
+        });
+        
+        // Manejo de hover del mouse (complementa la navegación con teclado)
+        menuOptions.forEach((option, index) => {
+            option.addEventListener('mouseenter', function() {
+                currentSelection = index;
+                updateSelection();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Retro - START GAME</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    </style>
+    
+    <!-- CSS Personalizado (DESPUÉS de Bootstrap para sobrescribir estilos) -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+        font-family: 'Press Start 2P', monospace; /* Fuente retro */
+        background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+        color: #00ff41;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        }
+
+        /* Efecto de líneas de escaneo CRT (pantallas antiguas) */
+        body::before {
+            content: ''; /* Elemento pseudo vacío */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Crea líneas horizontales repetidas */
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 2px, /* Líneas verdes muy tenues */
+                rgba(0, 255, 65, 0.03) 4px
+            );
+            pointer-events: none; /* No interfiere con clics */
+            animation: scanlines 2s linear infinite; /* Animación continua */
+        }
+
+        /* Animación de movimiento de scanlines */
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); } /* Mueve las líneas hacia abajo */
+        }
+
+        /* Contenedor para las estrellas de fondo */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Estilo para cada estrella individual */
+        .star {
+            position: absolute; /* Posicionamiento libre */
+            background: #fff; /* Color blanco */
+            border-radius: 50%; /* Forma circular */
+            animation: twinkle 3s infinite; /* Parpadeo continuo */
+        }
+
+        /* Animación de parpadeo de estrellas */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; } /* Opacidad baja al inicio y final */
+            50% { opacity: 1; } /* Opacidad máxima en el medio */
+        }
+        
+
+        .game-container {
+            text-align: center;
+            z-index: 10;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        .name {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #00ff41;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;
+        }
+        .title {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            color:#00ff41;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+            text-shadow: 0 0 4px #00ff41, 0 0 11px #00ff41, 0 0 19px #00ff41, 0 0 40px #00ff41;
+            opacity: 1;
+            }
+            20%, 24%, 55% {
+            text-shadow: none; /* Momentos sin brillo para simular falla */
+            }
+        }
+
+        /*Estilo del boton*/
+        .start-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background: black;
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            text-shadow: 0 0 5px #00ff41;
+            box-shadow: 0 0 10px #00ff41;
+            cursor: pointer;
+            transition: 0.3s ease;
+            animation: pulse 2s infinite;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); } /* Tamaño normal */
+            50% { transform: scale(1.05); } /* Ligeramente más grande */
+        }
+
+        /* Efectos al pasar mouse sobre el botón */
+        .start-button:hover {
+            background: linear-gradient(145deg, #3a3a6a, #2a2a4a); /* Fondo más claro */
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.6); /* Sombra más intensa */
+            transform: scale(1.1); /* Agranda el botón */
+        }
+
+        /* Efecto al hacer clic en el botón */
+        .start-button:active {
+            transform: scale(0.95); /* Reduce tamaño momentáneamente */
+        }
+
+        /* Texto de instrucciones en la parte inferior */
+        .instructions {
+            position: absolute;
+            bottom: 2rem; /* 2rem desde abajo */
+            left: 50%; /* Centro horizontal */
+            transform: translateX(-50%); /* Ajuste fino de centrado */
+            font-size: 0.8rem; /* Texto más pequeño */
+            opacity: 0.7; /* Semi-transparente */
+            animation: blink 2s infinite; /* Parpadeo */
+        }
+
+        /* Animación de parpadeo para instrucciones */
+        @keyframes blink {
+            0%, 50% { opacity: 0.7; } /* Visible */
+            51%, 100% { opacity: 0.2; } /* Casi invisible */
+        }
+
+        /* Estilo para partículas flotantes */
+        .particle {
+            position: absolute; /* Posicionamiento libre */
+            background: #00ff41; /* Color verde neón */
+            border-radius: 50%; /* Forma circular */
+            pointer-events: none; /* No interfiere con clics */
+            animation: float 6s linear infinite; /* Flotación continua */
+        }
+        
+        /* Animación de flotación de partículas */
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0); /* Inicia desde abajo, invisible */
+                opacity: 0;
+            }
+            10% {
+                opacity: 1; /* Se hace visible */
+            }
+            90% {
+                opacity: 1; /* Mantiene visibilidad */
+            }
+            100% {
+                transform: translateY(-10vh) scale(1); /* Termina arriba, tamaño completo */
+                opacity: 0; /* Se desvanece */
+            }
+        }
+        
+        /* Estilos responsivos para tablets */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem; /* Reduce tamaño del título */
+            }
+            
+            .start-button {
+                font-size: 1rem; /* Reduce tamaño de fuente */
+                padding: 0.8rem 1.5rem; /* Reduce padding */
+            }
+        }
+        
+        /* Estilos responsivos para móviles */
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem; /* Título aún más pequeño */
+            }
+            
+            .start-button {
+                font-size: 0.9rem;
+                padding: 0.7rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Estrellas de fondo -->
+    <div class="stars"></div>
+    
+    <!-- Contenedor usando clases de Bootstrap -->
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="position: relative; z-index: 10;">
+        <div class="game-container">
+            <h2 class="name">Matías González</h2>
+            <h1 class="title">PORTFOLIO</h1>
+            <button class="start-button btn" onclick="startGame()">START GAME</button>
+        </div>
+    </div>
+
+    <!-- Instrucciones -->
+    <div class="instructions">
+        PRESIONA START PARA CONTINUAR
+    </div>
+
+    <!-- Bootstrap 5 JavaScript Bundle (incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript Personalizado -->
+    <script>
+        // Función para crear estrellas aleatorias en el fondo
+        function createStars() {
+            const starsContainer = document.querySelector('.stars'); // Obtiene el contenedor de estrellas
+            const numberOfStars = 100; // Define cuántas estrellas crear
+            
+            // Bucle para crear cada estrella
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div'); // Crea elemento div para la estrella
+                star.className = 'star'; // Asigna la clase CSS 'star'
+                star.style.left = Math.random() * 100 + '%'; // Posición horizontal aleatoria (0-100%)
+                star.style.top = Math.random() * 100 + '%'; // Posición vertical aleatoria (0-100%)
+                star.style.width = Math.random() * 3 + 1 + 'px'; // Tamaño aleatorio (1-4px)
+                star.style.height = star.style.width; // Altura igual al ancho (círculo perfecto)
+                star.style.animationDelay = Math.random() * 3 + 's'; // Retraso aleatorio en la animación
+                starsContainer.appendChild(star); // Añade la estrella al contenedor
+            }
+        }
+
+        // Función para crear una partícula flotante individual
+        function createParticle() {
+            const particle = document.createElement('div'); // Crea elemento div para la partícula
+            particle.className = 'particle'; // Asigna la clase CSS 'particle'
+            particle.style.left = Math.random() * 100 + '%'; // Posición horizontal aleatoria
+            particle.style.width = Math.random() * 4 + 2 + 'px'; // Tamaño aleatorio (2-6px)
+            particle.style.height = particle.style.width; // Mantiene forma circular
+            particle.style.animationDuration = (Math.random() * 3 + 4) + 's'; // Duración aleatoria (4-7s)
+            document.body.appendChild(particle); // Añade partícula al body
+            
+            // Elimina la partícula del DOM después de 7 segundos para evitar acumulación
+            setTimeout(() => {
+                particle.remove();
+            }, 7000);
+        }
+
+        // Función principal que se ejecuta al hacer clic en START GAME
+        function startGame() {
+            playBeep(); // Reproduce sonido retro
+            
+            // Navegación directa a la página del menú
+            setTimeout(() => {
+                window.location.href = 'menu.html'; // Redirige a menu.html después del sonido
+            }, 300); // Espera 300ms para que se escuche el sonido
+        }
+
+        // Función para simular sonido retro usando Web Audio API
+        function playBeep() {
+            // Crea contexto de audio (compatible con diferentes navegadores)
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator(); // Genera la onda sonora
+            const gainNode = audioContext.createGain(); // Controla el volumen
+            
+            // Conecta oscillator -> gainNode -> altavoces
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800; // Frecuencia de 800Hz (sonido agudo)
+            oscillator.type = 'square'; // Onda cuadrada (sonido retro/8-bit)
+            
+            // Configura el volumen: empieza en 0, sube rápido, baja gradualmente
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime); // Volumen inicial 0
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01); // Sube a 0.1 en 10ms
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1); // Baja a 0.01 en 100ms
+            
+            oscillator.start(audioContext.currentTime); // Inicia el sonido inmediatamente
+            oscillator.stop(audioContext.currentTime + 0.1); // Para el sonido después de 100ms
+        }
+
+        // Event listener para detectar teclas presionadas
+        document.addEventListener('keydown', function(event) {
+            // Si se presiona Enter o Espacio, activa el botón START GAME
+            if (event.key === 'Enter' || event.key === ' ') {
+                startGame();
+            }
+        });
+
+        // Se ejecuta cuando la página termina de cargar completamente
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars(); // Crea todas las estrellas de fondo
+            
+            // Crea una nueva partícula cada 2 segundos (2000ms)
+            setInterval(createParticle, 2000);
+        });
+    </script>
+</body>
+</html>
